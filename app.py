@@ -240,21 +240,21 @@ elif page == "Visualization":
 
         else:
             file_mapping = {
-                "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
-                "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
-                "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
-                "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
-                "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
-                "Waste Disposal": ("toiletdistrict.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
-                "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
-                "Wall": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
-                "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
-                "Household Head Education": ("headedudistrict.csv", "headedulocation.csv"),
-                "Household Head ID": ("headiddistrict.csv", "headidlocation.csv"),
+                "Floor Mismatch": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
+                "Roof Mismatch": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
+                "Lighting Mismatch": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
+                "Habitable Rooms Mismatch": ("roomdistrict.csv", "roomslocation.csv"),
+                "Cooking Fuel Mismatch": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
+                "Waste Disposal Mismatch": ("toiletdistrict.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
+                "Water Source Mismatch": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
+                "Wall Mismatch": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
+                "Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
+                "Head Education": ("headedudistrict.csv", "headedulocation.csv"),
+                "Head ID": ("headiddistrict.csv", "headidlocation.csv"),
                 "Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
                 "Orphans": ("opharndistrict.csv", "opharnlocation.csv"),
-                "Relationship to Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
-                "Household Size": ("sizedistrict.csv", "sizelocation.csv"),
+                "Relationship Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
+                "Size": ("sizedistrict.csv", "sizelocation.csv"),
                 "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
                 "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
                 "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
@@ -305,7 +305,7 @@ elif page == "Visualization":
                     get_image_download_link(values_distribution_chart, f"{selected_dataset}Frequencies.png", "Download Chart")
 
     elif len(selected_datasets) > 1:
-        st.error("Please select only one variable at a time.")
+        st.error("Please select only one dataset at a time.")
     else:
         st.info("Please select a variable from the options above.")
 
