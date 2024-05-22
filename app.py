@@ -1,3 +1,4 @@
+# Importing necessary libraries
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -156,6 +157,17 @@ def get_image_download_link(fig, filename, text):
     buf.seek(0)
     st.download_button(label=text, data=buf, file_name=filename, mime="image/png")
 
+# Function to plot summary dataset
+def plot_summary(df):
+    plt.figure(figsize=(10, 8))
+    sns.barplot(x=df['HH Variable'], y=df['Percentage'], palette=brand_colors)
+    plt.title('Summary of HH Variables', fontsize=16)
+    plt.xlabel('HH Variables', fontsize=14)
+    plt.ylabel('Percentage', fontsize=14)
+    plt.xticks(rotation=90)
+    st.pyplot(plt)
+    return plt
+
 # Sidebar for navigation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Select Page", ["About", "Visualization"])
@@ -181,7 +193,7 @@ elif page == "Visualization":
         "Habitable Rooms", "Cooking Fuel", "Waste Disposal",
         "Water Source", "Wall",
         "Household Head DOB", "Household Head Education", "Household Head ID", "Household Member Names", "Orphans",
-        "Relationship to Head", "Household Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Summary"
+        "Relationship to Head", "Household Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Kisii County Summary"
     ]
 
     # Split datasets into two columns
@@ -190,8 +202,9 @@ elif page == "Visualization":
 
     with col1:
         for dataset in datasets[:10]:
-            if st.checkbox(dataset):
-                selected_datasets.append(dataset)
+            if dataset != "Kisii County Summary":
+                if st.checkbox(dataset):
+                    selected_datasets.append(dataset)
 
     with col2:
         for dataset in datasets[10:]:
@@ -199,7 +212,22 @@ elif page == "Visualization":
                 selected_datasets.append(dataset)
 
     # Display the selected dataset
-    if len(selected_datasets) == 1:
+    if "Kisii County Summary" in selected_datasets:
+        st.write("## Kisii County Summary")
+
+        summary_data = {
+            "HH Variable": [
+                "HH Head ID Number", "HH Head Date of Birth", "Spouse ID Number", "Spouse Date of Birth",
+                "Household Size", "Household member names", "Education Levels of HH Head", "Education levels of Spouse",
+                "Orphan members", "Relationships to household head", "Number of main rooms", "Floor", "Wall", "Roof",
+                "Source of Water", "Source of Lighting", "Toilet type", "Cooking fuel", "Any Disabled"
+            ],
+            "Percentage": [3.6, 7.5, 10.6, 6.3, 9.9, 0.0, 54.1, 53.6, 57.6, 55.8, 57.1, 15.5, 22.3, 12.2, 57.7, 47.7, 48.1, 5.8, 0.0]
+        }
+        summary_df = pd.DataFrame(summary_data)
+        summary_plot = plot_summary(summary_df,)
+
+    elif len(selected_datasets) == 1:
         selected_dataset = selected_datasets[0]
 
         if selected_dataset == "Declined Consent":
@@ -258,7 +286,7 @@ elif page == "Visualization":
                 "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
                 "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
                 "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
-                "Summary": ("summary.csv",)
+                "Kisii County Summary": ("kisii_summary.csv",)
             }
 
             files = file_mapping[selected_dataset]
