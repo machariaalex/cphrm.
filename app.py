@@ -177,11 +177,11 @@ elif page == "Visualization":
 
     # Define datasets
     datasets = [
-        "Declined Consent", "Floor Mismatch", "Roof Mismatch", "Lighting Mismatch",
-        "Habitable Rooms Mismatch", "Cooking Fuel Mismatch", "Waste Disposal Mismatch",
-        "Water Source Mismatch", "Wall Mismatch",
-        "Head DOB", "Head Education", "Head ID", "Member Names", "Orphans",
-        "Relationship Head", "Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Summary"
+        "Declined Consent", "Floor", "Roof", "Lighting",
+        "Habitable Rooms", "Cooking Fuel", "Waste Disposal",
+        "Water Source", "Wall",
+        "Household Head DOB", "Household Head Education", "Household Head ID", "Household Member Names", "Orphans",
+        "Relationship to Head", "Household Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Summary"
     ]
 
     # Split datasets into two columns
@@ -240,21 +240,21 @@ elif page == "Visualization":
 
         else:
             file_mapping = {
-                "Floor Mismatch": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
-                "Roof Mismatch": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
-                "Lighting Mismatch": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
-                "Habitable Rooms Mismatch": ("roomdistrict.csv", "roomslocation.csv"),
-                "Cooking Fuel Mismatch": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
-                "Waste Disposal Mismatch": ("toiletdistrict.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
-                "Water Source Mismatch": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
-                "Wall Mismatch": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
-                "Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
-                "Head Education": ("headedudistrict.csv", "headedulocation.csv"),
-                "Head ID": ("headiddistrict.csv", "headidlocation.csv"),
-                "Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
+                "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
+                "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
+                "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
+                "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
+                "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
+                "Waste Disposal": ("toiletdistrict.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
+                "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
+                "Wall": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
+                "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
+                "Household Head Education": ("headedudistrict.csv", "headedulocation.csv"),
+                "Household Head ID": ("headiddistrict.csv", "headidlocation.csv"),
+                "Household Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
                 "Orphans": ("opharndistrict.csv", "opharnlocation.csv"),
-                "Relationship Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
-                "Size": ("sizedistrict.csv", "sizelocation.csv"),
+                "Relationship to Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
+                "Household Size": ("sizedistrict.csv", "sizelocation.csv"),
                 "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
                 "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
                 "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
