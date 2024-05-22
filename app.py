@@ -173,7 +173,7 @@ if page == "About":
 
 elif page == "Visualization":
     st.title("Data Visualization")
-    st.subheader("Select Dataset")
+    st.subheader("Select a variable")
 
     # Define datasets
     datasets = [
