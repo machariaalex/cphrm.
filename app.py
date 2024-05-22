@@ -273,7 +273,7 @@ elif page == "Visualization":
                 "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
                 "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
                 "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
-                "Waste Disposal": ("toiletdistrict.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
+                "Waste Disposal": ("toilet district.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
                 "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
                 "Wall": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
                 "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
