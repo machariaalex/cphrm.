@@ -164,13 +164,18 @@ def plot_summary(df):
     plt.title('Summary of HH Variables', fontsize=16)
     plt.xlabel('HH Variables', fontsize=14)
     plt.ylabel('Percentage', fontsize=14)
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=85)
     st.pyplot(plt)
     return plt
-
 # Sidebar for navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Select Page", ["About", "Visualization"])
+
+# Add dropdown button for County
+county_option = st.sidebar.selectbox("Select County", ["Kisii", "Laikipia", "Migori", "Kisumu", "Lamu", "Kilifi", "Kwale", "Murang'a"])
+
+# Depending on the selected County, show appropriate options
+if county_option == "Kisii":
+    page = st.sidebar.radio("Select Page", ["About", "Visualization"])
 
 if page == "About":
     st.title("About This Project")
@@ -184,8 +189,8 @@ if page == "About":
     """)
 
 elif page == "Visualization":
-    st.title("Data Visualization")
-    st.subheader("Select a variable")
+    # st.title("Data Visualization")
+    st.write("### Select a variable")
 
     # Define datasets
     datasets = [
@@ -213,7 +218,7 @@ elif page == "Visualization":
 
     # Display the selected dataset
     if "Kisii County Summary" in selected_datasets:
-        st.write("## Kisii County Summary")
+        st.write("         ###         Total Variable Mismmatch in Kisii County")
 
         summary_data = {
             "HH Variable": [
@@ -231,7 +236,7 @@ elif page == "Visualization":
         selected_dataset = selected_datasets[0]
 
         if selected_dataset == "Declined Consent":
-            st.write("## Declined Consent Dataset Visualizations")
+            st.write("### Declined Consent Dataset Visualizations")
 
             # Checkboxes for selecting plot types
             col1, col2, col3 = st.columns(3)
@@ -268,6 +273,7 @@ elif page == "Visualization":
 
         else:
             file_mapping = {
+                "Kisii County Summary": ("kisii_summary.csv",),
                 "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
                 "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
                 "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
@@ -286,7 +292,6 @@ elif page == "Visualization":
                 "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
                 "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
                 "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
-                "Kisii County Summary": ("kisii_summary.csv",)
             }
 
             files = file_mapping[selected_dataset]
@@ -302,7 +307,7 @@ elif page == "Visualization":
                 variable_name = files[3]
                 values_df = load_data(values_file)
 
-            st.write(f"## {selected_dataset} Dataset Visualizations")
+            st.write(f"#### {selected_dataset} Dataset Visualizations")
 
             # Checkboxes for selecting plot types
             col1, col2, col3 = st.columns(3)
@@ -336,4 +341,3 @@ elif page == "Visualization":
         st.error("Please select only one dataset at a time.")
     else:
         st.info("Please select a variable from the options above.")
-
