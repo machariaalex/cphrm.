@@ -177,167 +177,165 @@ county_option = st.sidebar.selectbox("Select County", ["Kisii", "Laikipia", "Mig
 if county_option == "Kisii":
     page = st.sidebar.radio("Select Page", ["About", "Visualization"])
 
-if page == "About":
-    st.title("About This Project")
-    st.write("""
-        Third Party Quality Assurance for Phase II for Households' Registration Under the Enhanced Single Registry for the Kenya Social Inclusion Project(KSEIP)
+    if page == "About":
+        st.title("About This Project")
+        st.write("""
+            Third Party Quality Assurance for Phase II for Households' Registration Under the Enhanced Single Registry for the Kenya Social Inclusion Project(KSEIP)
 
-        **KISII COUNTY TPQA ANALYSIS REPORT**
-        
-        - **Visualize** the data with interactive plots.
-        - **Analyze** descriptive statistics.
-    """)
+            **KISII COUNTY TPQA ANALYSIS REPORT**
+            
+            - **Visualize** the data with interactive plots.
+            - **Analyze** descriptive statistics.
+        """)
 
-elif page == "Visualization":
-    # st.title("Data Visualization")
-    st.write("### Select a variable")
+    elif page == "Visualization":
+        # st.title("Data Visualization")
+        st.write("### Select a variable")
 
-    # Define datasets
-    datasets = [
-        "Declined Consent", "Floor", "Roof", "Lighting",
-        "Habitable Rooms", "Cooking Fuel", "Waste Disposal",
-        "Water Source", "Wall",
-        "Household Head DOB", "Household Head Education", "Household Head ID", "Household Member Names", "Orphans",
-        "Relationship to Head", "Household Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Kisii County Summary"
-    ]
+        # Define datasets
+        datasets = [
+            "Declined Consent", "Floor", "Roof", "Lighting",
+            "Habitable Rooms", "Cooking Fuel", "Waste Disposal",
+            "Water Source", "Wall",
+            "Household Head DOB", "Household Head Education", "Household Head ID", "Household Member Names", "Orphans",
+            "Relationship to Head", "Household Size", "Spouse DOB", "Spouse Education", "Spouse ID", "Kisii County Summary"
+        ]
 
-    # Split datasets into two columns
-    col1, col2 = st.columns(2)
-    selected_datasets = []
+        # Split datasets into two columns
+        col1, col2 = st.columns(2)
+        selected_datasets = []
 
-    with col1:
-        for dataset in datasets[:10]:
-            if dataset != "Kisii County Summary":
+        with col1:
+            for dataset in datasets[:10]:
+                if dataset != "Kisii County Summary":
+                    if st.checkbox(dataset):
+                        selected_datasets.append(dataset)
+
+        with col2:
+            for dataset in datasets[10:]:
                 if st.checkbox(dataset):
                     selected_datasets.append(dataset)
 
-    with col2:
-        for dataset in datasets[10:]:
-            if st.checkbox(dataset):
-                selected_datasets.append(dataset)
+        # Display the selected dataset
+        if "Kisii County Summary" in selected_datasets:
+            st.write("###Total Variable Mismmatch in Kisii County")
 
-    # Display the selected dataset
-    if "Kisii County Summary" in selected_datasets:
-        st.write("         ###         Total Variable Mismmatch in Kisii County")
-
-        summary_data = {
-            "HH Variable": [
-                "HH Head ID Number", "HH Head Date of Birth", "Spouse ID Number", "Spouse Date of Birth",
-                "Household Size", "Household member names", "Education Levels of HH Head", "Education levels of Spouse",
-                "Orphan members", "Relationships to household head", "Number of main rooms", "Floor", "Wall", "Roof",
-                "Source of Water", "Source of Lighting", "Toilet type", "Cooking fuel", "Any Disabled"
-            ],
-            "Percentage": [3.6, 7.5, 10.6, 6.3, 9.9, 0.0, 54.1, 53.6, 57.6, 55.8, 57.1, 15.5, 22.3, 12.2, 57.7, 47.7, 48.1, 5.8, 0.0]
-        }
-        summary_df = pd.DataFrame(summary_data)
-        summary_plot = plot_summary(summary_df,)
-
-    elif len(selected_datasets) == 1:
-        selected_dataset = selected_datasets[0]
-
-        if selected_dataset == "Declined Consent":
-            st.write("### Declined Consent Dataset Visualizations")
-
-            # Checkboxes for selecting plot types
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                show_pie_chart = st.checkbox("Pie Chart")
-                show_heatmap = st.checkbox("Heatmap")
-            with col2:
-                show_bar_plot_location = st.checkbox("Location Bar Chart")
-                show_stacked_bar_plot = st.checkbox("Sub County Bar Chart")
-
-            if show_pie_chart:
-                st.write("### Pie Chart of Declined Reasons")
-                pie_chart = plot_pie_chart(declined_consent)
-                if pie_chart:
-                    get_image_download_link(pie_chart, "pie_chart.png", "Download Pie Chart")
-
-            if show_heatmap:
-                st.write("### Heatmap of Decline Consent Counts for Each Location")
-                heatmap = plot_heatmap(declined_consent)
-                if heatmap:
-                    get_image_download_link(heatmap, "heatmap.png", "Download Heatmap")
-
-            if show_bar_plot_location:
-                st.write("### Bar Chart of Decline Reasons by Location")
-                bar_chart_location = plot_bar_chart_location(declined_consent)
-                if bar_chart_location:
-                    get_image_download_link(bar_chart_location, "bar_chart_location.png", "Download Bar Chart")
-
-            if show_stacked_bar_plot:
-                st.write("### Bar Chart of Decline Reasons by Sub County")
-                bar_chart_district = plot_bar_chart_district(declined_consent)
-                if bar_chart_district:
-                    get_image_download_link(bar_chart_district, "bar_chart_district.png", "Download Bar Chart")
-
-        else:
-            file_mapping = {
-                "Kisii County Summary": ("kisii_summary.csv",),
-                "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
-                "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
-                "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
-                "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
-                "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
-                "Waste Disposal": ("toilet district.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
-                "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
-                "Wall": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
-                "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
-                "Household Head Education": ("headedudistrict.csv", "headedulocation.csv"),
-                "Household Head ID": ("headiddistrict.csv", "headidlocation.csv"),
-                "Household Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
-                "Orphans": ("opharndistrict.csv", "opharnlocation.csv"),
-                "Relationship to Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
-                "Household Size": ("sizedistrict.csv", "sizelocation.csv"),
-                "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
-                "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
-                "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
+            summary_data = {
+                "HH Variable": [
+                    "HH Head ID Number", "HH Head Date of Birth", "Spouse ID Number", "Spouse Date of Birth",
+                    "Household Size", "Household member names", "Education Levels of HH Head", "Education levels of Spouse",
+                    "Orphan members", "Relationships to household head", "Number of main rooms", "Floor", "Wall", "Roof",
+                    "Source of Water", "Source of Lighting", "Toilet type", "Cooking fuel", "Any Disabled"
+                ],
+                "Percentage": [3.6, 7.5, 10.6, 6.3, 9.9, 0.0, 54.1, 53.6, 57.6, 55.8, 57.1, 15.5, 22.3, 12.2, 57.7, 47.7, 48.1, 5.8, 0.0]
             }
+            summary_df = pd.DataFrame(summary_data)
+            summary_plot = plot_summary(summary_df,)
 
-            files = file_mapping[selected_dataset]
+        elif len(selected_datasets) == 1:
+            selected_dataset = selected_datasets[0]
 
-            # Load datasets
-            district_df = load_data(files[0])
-            location_df = load_data(files[1]) if len(files) > 1 else None
-            values_df = None
-            variable_name = None
+            if selected_dataset == "Declined Consent":
+                st.write("### Declined Consent Dataset Visualizations")
 
-            if len(files) > 2:
-                values_file = files[2]
-                variable_name = files[3]
-                values_df = load_data(values_file)
+                # Checkboxes for selecting plot types
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    show_pie_chart = st.checkbox("Pie Chart")
+                    show_heatmap = st.checkbox("Heatmap")
+                with col2:
+                    show_bar_plot_location = st.checkbox("Location Bar Chart")
+                    show_stacked_bar_plot = st.checkbox("Sub County Bar Chart")
 
-            st.write(f"#### {selected_dataset} Dataset Visualizations")
+                if show_pie_chart:
+                    st.write("### Pie Chart of Declined Reasons")
+                    pie_chart = plot_pie_chart(declined_consent)
+                    if pie_chart:
+                        get_image_download_link(pie_chart, "pie_chart.png", "Download Pie Chart")
 
-            # Checkboxes for selecting plot types
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                show_district_bar_chart = st.checkbox(f"{selected_dataset} by Sub County")
-                if location_df is not None:
-                    show_location_bar_chart = st.checkbox(f"{selected_dataset} by Location")
-            with col2:
-                if values_df is not None:
-                    show_values_distribution = st.checkbox(f"{selected_dataset} Frequencies")
+                if show_heatmap:
+                    st.write("### Heatmap of Decline Consent Counts for Each Location")
+                    heatmap = plot_heatmap(declined_consent)
+                    if heatmap:
+                        get_image_download_link(heatmap, "heatmap.png", "Download Heatmap")
 
-            if show_district_bar_chart:
-                st.write(f"### {selected_dataset} by Sub County")
-                change_by_sub_county_chart = plot_change_by_sub_county(district_df, f"{selected_dataset} by Sub County")
-                if change_by_sub_county_chart:
-                    get_image_download_link(change_by_sub_county_chart, f"{selected_dataset}_by_sub_county.png", "Download Chart")
+                if show_bar_plot_location:
+                    st.write("### Bar Chart of Decline Reasons by Location")
+                    bar_chart_location = plot_bar_chart_location(declined_consent)
+                    if bar_chart_location:
+                        get_image_download_link(bar_chart_location, "bar_chart_location.png", "Download Bar Chart")
 
-            if location_df is not None and show_location_bar_chart:
-                st.write(f"### {selected_dataset} by Location")
-                change_by_location_chart = plot_change_by_location(location_df, f"{selected_dataset} by Location")
-                if change_by_location_chart:
-                    get_image_download_link(change_by_location_chart, f"{selected_dataset}_by_location.png", "Download Chart")
+                if show_stacked_bar_plot:
+                    st.write("### Bar Chart of Decline Reasons by Sub County")
+                    bar_chart_district = plot_bar_chart_district(declined_consent)
+                    if bar_chart_district:
+                        get_image_download_link(bar_chart_district, "bar_chart_district.png", "Download Bar Chart")
 
-            if values_df is not None and show_values_distribution:
-                st.write(f"### {selected_dataset} Frequencies")
-                values_distribution_chart = plot_values_distribution(values_df, f"{selected_dataset} Frequencies", variable_name)
-                if values_distribution_chart:
-                    get_image_download_link(values_distribution_chart, f"{selected_dataset}Frequencies.png", "Download Chart")
+            else:
+                file_mapping = {
+                    "Kisii County Summary": ("kisii_summary.csv",),
+                    "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
+                    "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
+                    "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
+                    "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
+                    "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
+                    "Waste Disposal": ("toilet district.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
+                    "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
+                    "Wall": ("walldistrict.csv", "wall location.csv", "wallvalues.csv", "Wall.x"),
+                    "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
+                    "Household Head Education": ("headedudistrict.csv", "headedulocation.csv"),
+                    "Household Head ID": ("headiddistrict.csv", "headidlocation.csv"),
+                    "Household Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
+                    "Orphans": ("opharndistrict.csv", "opharnlocation.csv"),
+                    "Relationship to Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
+                    "Household Size": ("sizedistrict.csv", "sizelocation.csv"),
+                    "Spouse DOB": ("spousedobdistrict.csv", "spousedoblocation.csv"),
+                    "Spouse Education": ("spouseedudistrict.csv", "spouseedulocation.csv"),
+                    "Spouse ID": ("spouseiddistrict.csv", "spouseidlocation.csv"),
+                }
 
-    elif len(selected_datasets) > 1:
-        st.error("Please select only one dataset at a time.")
-    else:
-        st.info("Please select a variable from the options above.")
+                files = file_mapping[selected_dataset]
+
+                # Load datasets
+                district_df = load_data(files[0])
+                location_df = load_data(files[1]) if len(files) > 1 else None
+                values_df = None
+                variable_name = None
+
+                if len(files) > 2:
+                    values_file = files[2]
+                    variable_name = files[3]
+                    values_df = load_data(values_file)
+
+                st.write(f"#### {selected_dataset} Dataset Visualizations")
+
+                # Checkboxes for selecting plot types
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    show_district_bar_chart = st.checkbox(f"{selected_dataset} by Sub County")
+                    if location_df is not None:
+                        show_location_bar_chart = st.checkbox(f"{selected_dataset} by Location")
+                with col2:
+                    if values_df is not None:
+                        show_values_distribution = st.checkbox(f"{selected_dataset} Frequencies")
+
+                if show_district_bar_chart:
+                    st.write(f"### {selected_dataset} by Sub County")
+                    change_by_sub_county_chart = plot_change_by_sub_county(district_df, f"{selected_dataset} by Sub County")
+                    if change_by_sub_county_chart:
+                        get_image_download_link(change_by_sub_county_chart, f"{selected_dataset}_by_sub_county.png", "Download Chart")
+
+                if location_df is not None and show_location_bar_chart:
+                    st.write(f"### {selected_dataset} by Location")
+                    change_by_location_chart = plot_change_by_location(location_df, f"{selected_dataset} by Location")
+                    if change_by_location_chart:
+                        get_image_download_link(change_by_location_chart, f"{selected_dataset}_by_location.png", "Download Chart")
+
+                if values_df is not None and show_values_distribution:
+                    st.write(f"### {selected_dataset} Frequencies")
+                    values_distribution_chart = plot_values_distribution(values_df, f"{selected_dataset} Frequencies", variable_name)
+                    if values_distribution_chart:
+                        get_image_download_link(values_distribution_chart, f"{selected_dataset}Frequencies.png", "Download Chart")
+
+elif county_option:
+    st.write("The selected County is not available.")
