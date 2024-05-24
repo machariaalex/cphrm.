@@ -256,7 +256,7 @@ if county_option == "Kisii":
                     "Orphan members", "Relationships to household head", "Number of main rooms", "Floor", "Wall", "Roof",
                     "Source of Water", "Source of Lighting", "Toilet type", "Cooking fuel", "Any Disabled"
                 ],
-                "Percentage": [3, 8, 4, 6, 10, 0, 32, 29, 31, 17, 18, 16, 22, 12, 48, 48, 9, 6, 0]
+                "Percentage": [3.6, 7.5, 10.6, 6.3, 9.9, 0.0, 54.1, 53.6, 57.6, 55.8, 57.1, 15.5, 22.3, 12.2, 57.7, 47.7, 48.1, 5.8, 0.0]
             }
             summary_df = pd.DataFrame(summary_data)
             summary_plot = plot_summary(summary_df,)
