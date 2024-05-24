@@ -247,7 +247,7 @@ if county_option == "Kisii":
 
         # Display the selected dataset
         if "Kisii County Summary" in selected_datasets:
-            st.write("###Total Variable Mismmatch in Kisii County")
+            st.write("### Total Variable Mismmatch in Kisii County")
 
             summary_data = {
                 "HH Variable": [
