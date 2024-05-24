@@ -336,7 +336,7 @@ if county_option == "Kisii":
                     variable_name = files[3]
                     values_df = load_data(values_file)
 
-                st.write(f"#### {selected_dataset} Dataset Visualizations")
+                st.write(f"#### {selected_dataset}")
 
                 # Checkboxes for selecting plot types
                 col1, col2, col3 = st.columns(3)
