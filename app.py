@@ -341,21 +341,21 @@ if county_option == "Kisii":
                 # Checkboxes for selecting plot types
                 col1, col2, col3 = st.columns(3)
                 with col1:
-                    show_district_bar_chart = st.checkbox(f"{selected_dataset} Sub County")
+                    show_district_bar_chart = st.checkbox(f" Sub County")
                     if location_df is not None:
-                        show_location_bar_chart = st.checkbox(f"{selected_dataset} Location")
+                        show_location_bar_chart = st.checkbox(f" Location")
                 with col2:
                     if values_df is not None:
-                        show_values_distribution = st.checkbox(f"{selected_dataset} Frequencies")
+                        show_values_distribution = st.checkbox(f" Frequencies")
 
                 if show_district_bar_chart:
-                    st.write(f"### {selected_dataset} Sub County")
+                    st.write(f"### {selected_dataset} by Sub County")
                     change_by_sub_county_chart = plot_change_by_sub_county(district_df, f"{selected_dataset} by Sub County")
                     if change_by_sub_county_chart:
                         get_image_download_link(change_by_sub_county_chart, f"{selected_dataset}_by_sub_county.png", "Download Chart")
 
                 if location_df is not None and show_location_bar_chart:
-                    st.write(f"### {selected_dataset} Location")
+                    st.write(f"### {selected_dataset} by Location")
                     change_by_location_chart = plot_change_by_location(location_df, f"{selected_dataset} by Location")
                     if change_by_location_chart:
                         get_image_download_link(change_by_location_chart, f"{selected_dataset}_by_location.png", "Download Chart")
