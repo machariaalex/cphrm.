@@ -136,19 +136,26 @@ def plot_change_by_location(df, title):
     else:
         st.error("Column 'LocationName' does not exist in the dataset.")
 
-# Function to plot bar chart for Values
+# Function to plot bar chart for Values with values on top of bars
 def plot_values_distribution(df, title, variable_name):
     if variable_name in df.columns:
-        df.set_index(variable_name)[['First_visit', 'Second_visit']].plot(kind='bar', figsize=(18, 12), color=brand_colors[:2])
+        ax = df.set_index(variable_name)[['First_visit', 'Second_visit']].plot(kind='bar', figsize=(18, 12), color=brand_colors[:2])
         plt.title(title, fontsize=16)
         plt.xlabel(variable_name, fontsize=14)
         plt.ylabel('Values', fontsize=14)
         plt.xticks(rotation=45, horizontalalignment='right', fontsize=12)
         plt.legend(title='Visit')
+        
+        # Display values on top of bars
+        for p in ax.patches:
+            ax.annotate(f'{int(p.get_height())}', (p.get_x() + p.get_width() / 2., p.get_height()), ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=10)
+        
+        plt.tight_layout()
         st.pyplot(plt)
         return plt
     else:
         st.error(f"Column '{variable_name}' does not exist in the dataset.")
+
 
 # Function to create a download link for the plots
 def get_image_download_link(fig, filename, text):
@@ -157,16 +164,36 @@ def get_image_download_link(fig, filename, text):
     buf.seek(0)
     st.download_button(label=text, data=buf, file_name=filename, mime="image/png")
 
-# Function to plot summary dataset
+# Function to plot summary dataset with values on top of bars
 def plot_summary(df):
     plt.figure(figsize=(10, 8))
-    sns.barplot(x=df['HH Variable'], y=df['Percentage'], palette=brand_colors)
+    ax = sns.barplot(x=df['HH Variable'], y=df['Percentage'].astype(int), palette=brand_colors)
     plt.title('Summary of HH Variables', fontsize=16)
     plt.xlabel('HH Variables', fontsize=14)
-    plt.ylabel('Percentage', fontsize=14)
+    plt.ylabel('Mismatch %', fontsize=14)
     plt.xticks(rotation=85)
+    
+    # Display values on top of bars
+    for p in ax.patches:
+        ax.annotate(f'{int(p.get_height())}%', (p.get_x() + p.get_width() / 2., p.get_height()), ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=10)
+    
+    plt.tight_layout()
     st.pyplot(plt)
     return plt
+
+
+
+
+# Landing Page
+def landing_page():
+    st.title("Project Details")
+    st.write("""
+        The primary objective of this task was to check variances for the Kisii dataset between the original data
+        and recollected data, focusing on several key variables related to household characteristics. The tasks
+        included data cleaning, analysis, visualization, providing a usable Python script for system integration,
+        and offering recommendations for implementing AI/ML to enhance future analyses.
+    """)
+
 # Sidebar for navigation
 st.sidebar.title("Navigation")
 
@@ -175,6 +202,8 @@ county_option = st.sidebar.selectbox("Select County", ["Kisii", "Laikipia", "Mig
 
 # Depending on the selected County, show appropriate options
 if county_option == "Kisii":
+    landing_page()  # Show landing page
+
     page = st.sidebar.radio("Select Page", ["About", "Visualization"])
 
     if page == "About":
@@ -276,8 +305,8 @@ if county_option == "Kisii":
                     "Kisii County Summary": ("kisii_summary.csv",),
                     "Floor": ("floordistrict.csv", "floorlocation.csv", "floorvalues.csv", "Floor.x"),
                     "Roof": ("roofdistrict.csv", "rooflocation.csv", "roofvalues.csv", "Roof.x"),
-                    "Lighting": ("lightdistrict.csv", "lightlocation.csv", "lightvalues.csv", "LightingFuel.x"),
-                    "Habitable Rooms": ("roomdistrict.csv", "roomslocation.csv"),
+                    "Lighting": ("lightingdistrict.csv", "lightinglocation.csv", "lightingvalues.csv", "LightingFuel.x"),
+                    "Habitable Rooms": ("roomsdistrict.csv", "roomslocation.csv"),
                     "Cooking Fuel": ("cookingdistrict.csv", "cookinglocation.csv", "cookingvalues.csv", "CookingFuel.x"),
                     "Waste Disposal": ("toilet district.csv", "toiletlocation.csv", "toiletvalues.csv", "HumanWasteDisposal.x"),
                     "Water Source": ("waterdistrict.csv", "waterlocation.csv", "watervalues.csv", "WaterSource.x"),
@@ -285,7 +314,7 @@ if county_option == "Kisii":
                     "Household Head DOB": ("headdobdistrict.csv", "headdoblocation.csv"),
                     "Household Head Education": ("headedudistrict.csv", "headedulocation.csv"),
                     "Household Head ID": ("headiddistrict.csv", "headidlocation.csv"),
-                    "Household Member Names": ("membernamesdistrict.csv", "membernameslocation.csv"),
+                    "Household Member Names": ("namesdistrict.csv", "membernameslocation.csv"),
                     "Orphans": ("opharndistrict.csv", "opharnlocation.csv"),
                     "Relationship to Head": ("relatioshipheaddistrict.csv", "relatioshipheadlocation.csv"),
                     "Household Size": ("sizedistrict.csv", "sizelocation.csv"),
